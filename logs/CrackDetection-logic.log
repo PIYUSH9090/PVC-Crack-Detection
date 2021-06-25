@@ -1,0 +1,84 @@
+Level is NOT DEBUG. There will be no wait.
+Trying to login. If you are NOT logged in, there will be a prompt
+Authenticating with existing credentials...
+Login Succeeded
+Building crack-detection-logic
+Sending build context to Docker daemon  12.85MB
+Step 1/9 : FROM python:3.8
+ ---> f5041c8ae6b1
+Step 2/9 : COPY . /app
+ ---> Using cache
+ ---> b3ca2f631922
+Step 3/9 : WORKDIR /app
+ ---> Using cache
+ ---> 0015e09da267
+Step 4/9 : RUN apt update -y
+ ---> Using cache
+ ---> 8240f53b7ecc
+Step 5/9 : RUN apt install -y libgl1-mesa-glx
+ ---> Using cache
+ ---> c4fa4c6f1f39
+Step 6/9 : RUN pip3 install opencv-python
+ ---> Using cache
+ ---> 0f746b9abcde
+Step 7/9 : RUN pip3 install opencv-contrib-python
+ ---> Using cache
+ ---> f0aa7ee6af87
+Step 8/9 : RUN pip install -r requirements.txt
+ ---> Using cache
+ ---> 079a9929c567
+Step 9/9 : CMD python app.py runserver 0.0.0.0:5050
+ ---> Using cache
+ ---> c2fd9b064084
+Successfully built c2fd9b064084
+Successfully tagged piyush9090/crack-detection-logic:latest
+Pushing crack-detection-logic
+Using default tag: latest
+The push refers to repository [docker.io/piyush9090/crack-detection-logic]
+dd26c8d2e0b8: Preparing
+fcac11e6217d: Preparing
+5d0657baff6b: Preparing
+c2c20be79ea6: Preparing
+ae71e881efcb: Preparing
+c958071f23f4: Preparing
+8bdee3f404a1: Preparing
+e7f6ccee1295: Preparing
+90864f0e5b9f: Preparing
+59840d625c92: Preparing
+da87e334550a: Preparing
+c5f4367d4a59: Preparing
+ceecb62b2fcc: Preparing
+193bc1d68b80: Preparing
+f0e10b20de19: Preparing
+59840d625c92: Waiting
+c5f4367d4a59: Waiting
+8bdee3f404a1: Waiting
+e7f6ccee1295: Waiting
+da87e334550a: Waiting
+ceecb62b2fcc: Waiting
+90864f0e5b9f: Waiting
+c958071f23f4: Waiting
+ae71e881efcb: Layer already exists
+c2c20be79ea6: Layer already exists
+dd26c8d2e0b8: Layer already exists
+fcac11e6217d: Layer already exists
+5d0657baff6b: Layer already exists
+e7f6ccee1295: Layer already exists
+8bdee3f404a1: Layer already exists
+90864f0e5b9f: Layer already exists
+59840d625c92: Layer already exists
+c958071f23f4: Layer already exists
+da87e334550a: Layer already exists
+ceecb62b2fcc: Layer already exists
+c5f4367d4a59: Layer already exists
+193bc1d68b80: Layer already exists
+f0e10b20de19: Layer already exists
+latest: digest: sha256:3dc4f9a6aa5b336a72e218432c61825a5c1c0bf36abb3a959a601ae802ee6d01 size: 3491
+Running crack-detection-logic
+272610bad36713d79e138fad6264cc2bcaade9130a268b703dfbe539971d68dc
+List of containers running now
+CONTAINER ID   IMAGE                              COMMAND                  CREATED         STATUS                  PORTS                    NAMES
+272610bad367   piyush9090/crack-detection-logic   "/bin/sh -c 'python …"   6 seconds ago   Up 4 seconds            0.0.0.0:5050->5050/tcp   laughing_shaw
+7483f1aa5884   piyush9090/image-upload-logic      "docker-entrypoint.s…"   6 days ago      Exited (1) 5 days ago                            strange_swartz
+ The one we just started is : 272610bad367
+crack-detection container is running 272610bad367 :) 

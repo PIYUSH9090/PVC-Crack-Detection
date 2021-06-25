@@ -1,0 +1,91 @@
+if [ "$LEVEL" == "DEBUG" ]; then
+	echo "Level is DEBUG. Press enter when paused"
+else
+	echo "Level is NOT DEBUG. There will be no wait"	
+fi
+cd ../../
+
+# We are creating shell script for deployment of this city_api project 
+echo 'Reset Docker to prevent connection error'
+unset DOCKER_HOST
+unset DOCKER_TLS_VERIFY
+unset DOCKER_TLS_PATH
+echo "First we need to do the docker login"
+docker login
+docker ps
+
+echo 'Create the cluster from scratch if necessary.[OPTIONAL]'
+sh createClusterIfNeeded.sh
+
+echo "Building CrackDetection-logic component in no hup mode"
+cd CrackDetection-logic
+# TODO move it to how to run the directories.
+sh BuildCrackDetection-logicDocker.sh > ../logs/CrackDetection-logic.log
+cd ../
+
+CURRENT_DATE=`date +%b-%d-%y_%I_%M_%p`
+echo "Starting At "$CURRENT_DATE
+echo "Deleting Deployments"
+kubectl get deployments
+
+# Before this step you should have already project created in gcloud and also you have enable the api and services in the kubernates engine api
+echo "Before creating new deployment we need to remove old deployments"
+kubectl delete deployment api
+kubectl delete pods
+
+echo "Before creating new service we need to remove old services"
+kubectl get services
+kubectl delete service api-service
+kubectl get services
+
+if [ "$LEVEL" == "DEBUG" ]; then
+	echo "Press Enter if CrackDetection-logic is pushed to docker hub."
+	read CrackDetectionLogicIsPushed
+else
+	echo 'CrackDetection-logic pushed.'	
+fi
+
+echo "Creatinng a persistent volume & claim"
+kubectl apply -f resource-manifests/crackDetection-pvc.yaml
+kubectl get pv
+kubectl get pvc
+
+echo "Crack Detection deployment."
+kubectl apply -f resource-manifests/crackDetectionDeployment.yaml --record
+kubectl get deployments
+kubectl get pods
+
+echo "Creatinng a pod"
+kubectl apply -f resource-manifests/crackDetectionPod.yaml
+kubectl get pods
+
+echo "CrackDetection-logic service."
+kubectl apply -f resource-manifests/CrackDetection-logic.yaml
+kubectl get services
+kubectl get pods
+kubectl get service api-service
+
+echo 'Check rollout status.'	
+# INFO: This is to prevent silent Errors.
+kubectl rollout status deployment CrackDetection-logic
+
+
+echo "crackdetection service."
+crackdetectionIp=""
+crackdetectionPort=""
+while [ -z $crackdetectionIp ]; do
+    sleep 5
+    kubectl get svc
+    crackdetectionIp=`kubectl get service api-service --output=jsonpath='{.status.loadBalancer.ingress[0].ip}'`
+	crackdetectionPort=`kubectl get service api-service --output=jsonpath='{.spec.ports[0].port}'`
+done
+
+echo "launch "$crackdetectionIp":"$crackdetectionPort
+
+
+trap : 0
+
+ echo >&2 '
+************
+*** DONE gCloudDeployment.sh ***
+************'

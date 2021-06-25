@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: crack-detection-pv-pod
+spec:
+  volumes:
+    - name: crack-detection-pv-storage
+      persistentVolumeClaim:
+        claimName: crack-detection-pv-claim
+  containers:
+    - name: crack-detection-pv-pod
+      image: piyush9090/crack-detection-logic
+      volumeMounts:
+        - mountPath: "/Crack"
+          name: crack-detection-pv-storage
+      ports:
+          - containerPort: 5050
