@@ -13,9 +13,18 @@ unset DOCKER_TLS_PATH
 echo "First we need to do the docker login"
 docker login
 docker ps
+cd ../../
+
+
+# Here we have to go first directory of GKE.
+# Now we are putting sh file of create cluster if need.
+cd HowToRun/GKE
 
 echo 'Create the cluster from scratch if necessary.[OPTIONAL]'
 sh createClusterIfNeeded.sh
+
+# Now we are comeback to root directory.
+cd ../../
 
 echo "Building CrackDetection-logic component in no hup mode"
 cd CrackDetection-logic

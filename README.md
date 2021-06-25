@@ -1,26 +1,45 @@
-# Here we creating the shell script of CrackDetectionGKE project 
+# PVC Crack Detection
 
-#### In this repo you will  see 4 branches of different different part like 
-1. Local
-2. Docker
-3. Minikube 
-4. GKE
+## I'm trying to connect Persistent volume in Crack Detection web app.
 
-#### So you can run whatever you like, there is all the files name is showing there work.
+We just need to follow shell files instruction.
 
-Let's take exaple of Local there is 2 file and 2 concept 
+You have to go this directory 
 
-1. RunCrackDetectionLocally.sh
-
-Basically it will run this project locally 
-
-2. StopRunCrackDetectionLocally.sh
-
-
-Like that whatever you can run with explaination of files name 
-
-If you want to log in kubernates gcloud pod then this command is for you
 ```
-kubectl exec --stdin --tty [POD NAME] -- /bin/bash
+cd /HowToRun/GKE
 ```
-Thankyou...
+
+Now just run the normal file to create cluster seprately createClusterIfNeeded.sh.
+
+```
+sh createClusterIfNeeded.sh
+```
+
+And if you want to create cluster with gCloudDeployment same time you can run the shell file 
+
+```
+sh gCloudDeployment.sh
+``` 
+
+You will get port at last just run that port and add "/Crack" in localhost link.
+
+Now we have to check the pod is store the data or not so for that we need to do one thing 
+
+1) After then we need to login the pod and then do confirm the image is there. Let's login the pod with this command
+
+```
+kubectl exec -it << POD_NAME >> -- /bin/bash
+```
+Now confirm that image is there.
+
+2) Now you have to delete the pod with this command
+
+``` 
+kubectl delete po << POD_NAME >>
+```
+3) Now reapply the pod and confirm that image is still there even pod deleted. Again login to the pod and check it out.
+
+If the image is there then your webapp is working with persistent volume.
+
+Thank you :)
