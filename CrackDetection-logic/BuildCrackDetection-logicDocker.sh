@@ -32,23 +32,23 @@ docker login
 
 # It will print the log folder wise
 echo "Building crack-detection-logic"
-docker build -f Dockerfile -t piyush9090/crack-detection-logic .
+docker build -f Dockerfile -t $DOCKER_USER_ID/crack-detection-logic .
 # Now image building is done 
 # So now we will push that image to dockerhub
 echo "Pushing crack-detection-logic"
-docker push piyush9090/crack-detection-logic
+docker push $DOCKER_USER_ID/crack-detection-logic
 # Here we run the container with that port 8080:8080
 echo "Running crack-detection-logic"
-docker run -d -p 5050:5050 piyush9090/crack-detection-logic &
+docker run -d -p 5050:5050 $DOCKER_USER_ID/crack-detection-logic &
 sleep 5
 echo "List of containers running now"
 docker container ls -a
 
-CrackDetectionLogicId="$(docker container ls -f ancestor="piyush9090/crack-detection-logic" -f status=running -aq)"
+CrackDetectionLogicId="$(docker container ls -f ancestor="$DOCKER_USER_ID/crack-detection-logic" -f status=running -aq)"
 echo " The one we just started is : $CrackDetectionLogicId"
 
 if [ -n "$CrackDetectionLogicId" ]; then
-  echo "crack-detection container is running $(docker container ls -f ancestor=piyush9090/crack-detection-logic -f status=running -aq) :) "
+  echo "crack-detection container is running $(docker container ls -f ancestor=$DOCKER_USER_ID/crack-detection-logic -f status=running -aq) :) "
 else
   echo "ERROR: crack-detection is NOT running. :(  . Please Check logs/CrackDetection-logic.log"
   exit 1

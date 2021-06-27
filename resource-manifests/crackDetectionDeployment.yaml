@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
       - name: api
-        image: piyush9090/crack-detection-logic
+        image: maheshrajannan/crack-detection-logic
         imagePullPolicy: Always
         ports:
         - containerPort: 5050

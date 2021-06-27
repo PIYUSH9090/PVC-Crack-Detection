@@ -9,7 +9,7 @@ spec:
         claimName: crack-detection-pv-claim
   containers:
     - name: crack-detection-pv-pod
-      image: piyush9090/crack-detection-logic
+      image: maheshrajannan/crack-detection-logic
       volumeMounts:
         - mountPath: "/Crack"
           name: crack-detection-pv-storage
