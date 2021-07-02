@@ -3,7 +3,6 @@ if [ "$LEVEL" == "DEBUG" ]; then
 else
 	echo "Level is NOT DEBUG. There will be no wait"	
 fi
-cd ../../
 
 # We are creating shell script for deployment of this city_api project 
 echo 'Reset Docker to prevent connection error'
@@ -39,12 +38,12 @@ kubectl get deployments
 
 # Before this step you should have already project created in gcloud and also you have enable the api and services in the kubernates engine api
 echo "Before creating new deployment we need to remove old deployments"
-kubectl delete deployment api
+kubectl delete deployment crack-detection-pod
 kubectl delete pods
 
 echo "Before creating new service we need to remove old services"
 kubectl get services
-kubectl delete service api-service
+kubectl delete service crack-detection-service
 kubectl get services
 
 if [ "$LEVEL" == "DEBUG" ]; then
@@ -64,15 +63,15 @@ kubectl apply -f resource-manifests/crackDetectionDeployment.yaml --record
 kubectl get deployments
 kubectl get pods
 
-echo "Creatinng a pod"
-kubectl apply -f resource-manifests/crackDetectionPod.yaml
-kubectl get pods
+# echo "Creatinng a pod"
+# kubectl apply -f resource-manifests/crackDetectionPod.yaml
+# kubectl get pods
 
 echo "CrackDetection-logic service."
 kubectl apply -f resource-manifests/CrackDetection-logic.yaml
 kubectl get services
 kubectl get pods
-kubectl get service api-service
+kubectl get service crack-detection-service
 
 echo 'Check rollout status.'	
 # INFO: This is to prevent silent Errors.
@@ -85,8 +84,8 @@ crackdetectionPort=""
 while [ -z $crackdetectionIp ]; do
     sleep 5
     kubectl get svc
-    crackdetectionIp=`kubectl get service api-service --output=jsonpath='{.status.loadBalancer.ingress[0].ip}'`
-	crackdetectionPort=`kubectl get service api-service --output=jsonpath='{.spec.ports[0].port}'`
+    crackdetectionIp=`kubectl get service crack-detection-service --output=jsonpath='{.status.loadBalancer.ingress[0].ip}'`
+	crackdetectionPort=`kubectl get service crack-detection-service --output=jsonpath='{.spec.ports[0].port}'`
 done
 
 echo "launch "$crackdetectionIp":"$crackdetectionPort

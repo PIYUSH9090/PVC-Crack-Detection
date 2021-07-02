@@ -20,7 +20,7 @@ unset DOCKER_TLS_VERIFY
 unset DOCKER_TLS_PATH
 # INFO: https://stackoverflow.com/questions/30604846/docker-error-no-space-left-on-device
 echo "INFO: Docker system pruning to save space:"
-CLUSTERNAME=crackdetectioncityapi 
+CLUSTERNAME=crack-detection 
 docker system prune -f
 
 # INFO: when you try to do things parallely, then contexts will be deleted but not the cluster. 

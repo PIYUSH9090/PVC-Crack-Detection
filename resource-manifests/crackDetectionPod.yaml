@@ -9,9 +9,9 @@ spec:
         claimName: crack-detection-pv-claim
   containers:
     - name: crack-detection-pv-pod
-      image: maheshrajannan/crack-detection-logic
+      image: piyush9090/crack-detection-logic
       volumeMounts:
-        - mountPath: "/Crack"
+        - mountPath: "/app/uploads/images"
           name: crack-detection-pv-storage
       ports:
           - containerPort: 5050

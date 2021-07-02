@@ -18,7 +18,7 @@ set -e
 unset DOCKER_HOST
 unset DOCKER_TLS_VERIFY
 unset DOCKER_TLS_PATH
-CLUSTERNAME=crackdetectioncityapi
+CLUSTERNAME=crack-detection
 
 # kubectl config get-contexts -o name | grep translator-app | wc -c)
 

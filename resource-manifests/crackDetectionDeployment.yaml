@@ -1,20 +1,51 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: api
+  name: crack-detection-pod
 spec:
   selector:
     matchLabels:
-      app: api
+      app: crack-detection-pod
   replicas: 1
   template:
     metadata:
       labels:
-        app: api
+        app: crack-detection-pod
     spec:
+      volumes:
+        - name: crack-detection-pv-storage
+          persistentVolumeClaim:
+            claimName: crack-detection-pv-claim
       containers:
-      - name: api
-        image: maheshrajannan/crack-detection-logic
-        imagePullPolicy: Always
-        ports:
-        - containerPort: 5050
+        - name: crack-detection-pod
+          image: piyush9090/crack-detection-logic
+          imagePullPolicy: Always
+          volumeMounts:
+            - mountPath: "/app/uploads/images"
+              name: crack-detection-pv-storage
+          ports:
+          - containerPort: 5050
+
+
+
+# apiVersion: apps/v1
+# kind: Deployment
+# metadata:
+#   name: crack-detection-pod
+# spec:
+#   selector:
+#     matchLabels:
+#       app: crack-detection-pod
+#   replicas: 1
+#   template:
+#     metadata:
+#       labels:
+#         app: crack-detection-pod
+#     spec:
+#       containers:
+#       - name: crack-detection-pod
+#         image: piyush9090/crack-detection-logic
+#         imagePullPolicy: Always
+#         ports:
+#         - containerPort: 5050
+#         
